@@ -1,0 +1,51 @@
+Read me
+
+Explicando o geral da arquitetura:
+
+GameController:
+	É a principal classe  do jogo. Cada vez que uma cena "Level" é criada, ela é criada também. 
+	Ela verifica se o jogador morreu e se sim, chama DDAAply para balancear
+
+PassLevel:
+	Verifica se venceu ou se pulou de nível e se sim, chama DDAAply para balancear
+
+DDAAply
+	Aplica o ADD. O ADD é aplicado em dois instantes:
+	Ao passar de nível: método BalanceAtPassLevel chamado pela classe PassLevel
+	Ao morrer: método BalanceAtDeath chamado por GameController.
+
+
+DataCenter
+	Muito importante no programa também. Possui uma única instancia. Centraliza os dados utilizados que são passados entre diferentes cenas do jogo.
+	Está atrelada no Unity ao prefab "DataReceiver"
+	No final do programa escreve os dados no JSON representado por pelo objeto df da classe DataFile
+
+DataFile
+	Uma classe que pode ser seriabilizada e transformada em um JSON. Para isso temos que declarar [System.Serializable] antes da declaração da classe. Os dados contidos nela serão o output do jogo em texto. A classe tem um objeto do tipo DataFileLevel que segue o mesmo princício, mas representa um só level.
+
+
+______________
+
+Principais Unity Prefabs
+
+Chamadas em Presentation:
+
+	Level Controller: é um prefab que contém o script CreateAsteroids para criar os asteroids ao iniciar o nível.
+
+	Sensor: é chamada na primeira cena (Presentation) e é responsavel por coletar os dados EDA chamando EDAStart. EDAStart não é destruida ao trocar de cena.
+
+Chamadas em Level:
+
+	Game Controller é a principal cena de um Level. Possui os seguintes Componentes Scrips com as seguintes variaveis:
+		GameController: Actual Scene: O nome da scena que deve ser carrega (geralmente a propria cena que contém ele)
+		Pause Game: pausa o jogo
+		Static Manager: Gerencia objetos estaticos.
+			Seta: GameObject da Seta que é mostrada ao iniciar o jogo
+			Camera Icone: GameObject da camera que aparece ao se clicar Q+W
+		Pass Level: Utilizada para dizer qual será a próxima cena.
+			Next Level: Nome da próxima cena
+
+		!!! GetPlayerData (GetPlayerData): Nao estamos usando mais. Apagar. Era utilizada para pegar data do jogador que não vem diretamente do jogo, como arquivos textos (EDA)
+
+
+	
