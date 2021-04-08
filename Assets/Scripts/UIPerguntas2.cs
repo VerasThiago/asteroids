@@ -17,6 +17,7 @@ public class UIPerguntas2 : MonoBehaviour
     private string respostaDiversao;
     private string respostaInputText;
     private bool jaClicouSubmit = false;
+    private int levelCount = 3;
 
     void Start()
     {
@@ -118,7 +119,7 @@ public class UIPerguntas2 : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.O)) {
                 DataCenter.instance.AddPerguntasToDataFile(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
                 DataCenter.instance.AddLevelToJson();
-                if (DataCenter.instance.GetCurrentLevel() == 10) {
+                if (DataCenter.instance.GetCurrentLevel() == levelCount) {
                     gameObject.GetComponent<ProximaCena>().nextScene = "Fim do Jogo";
                 }
                 DataCenter.instance.AddLevel();
@@ -137,7 +138,7 @@ public class UIPerguntas2 : MonoBehaviour
             if (!EDAStart.instance.calculandoExcitacao) {
                 DataCenter.instance.AddPerguntasToDataFile(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
                 DataCenter.instance.AddLevelToJson();
-                if (DataCenter.instance.GetCurrentLevel() == 10) {
+                if (DataCenter.instance.GetCurrentLevel() == levelCount) {
                     gameObject.GetComponent<ProximaCena>().nextScene = "Fim do Jogo";
                 }
                 DataCenter.instance.AddLevel();

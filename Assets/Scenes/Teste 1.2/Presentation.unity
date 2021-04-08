@@ -2173,9 +2173,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensor: {fileID: 1412720544}
   Options:
-  - DSP
-  - AFT
-  - ZON
+  - Nenhum
+  - Afetivo
+  - Tempo Real GSR
+  - Tempo Real DSA
 --- !u!4 &1394646792
 Transform:
   m_ObjectHideFlags: 0
