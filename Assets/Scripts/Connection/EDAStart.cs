@@ -10,10 +10,19 @@ public class EDAStart : MonoBehaviour
     public static EDAStart instance;
     public GameObject prefab;
     public EDASignals sinais; //onde ficam os sinais lidos.
-    
+
+    public EDASignals signals;
+    public bool isTestData;
+    public EDASignals testSignals;
+    public TextAsset csvTestFile;
+
+    private int lastIDSaved;
+    private int frequency = 4;
+    private int readInterval = 2;
+
     //private readonly double tempo_inicial_bd = 1570572504.2719;
     //private double tempo_inicial_jogo;
-    //private TimerController timer;
+    private TimerController timer;
     private int ultimo_id_lido;
     //private EDAProcessor edaProcessor; //Essa classe contem parte do programa do marcos usado para calcular nivel tonico
     //private double ultimo_tempo_eda_lido; //usado para gerar os graficos
@@ -38,26 +47,76 @@ public class EDAStart : MonoBehaviour
     // Start is called before the first frame update
     void Start() {
         ultimo_id_lido = 0;
+        lastIDSaved = 0;
         //tempo_inicial_jogo = System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds;
         //tempo_inicial_jogo = System.DateTimeOffset.UtcNow.ToUnixTimeSeconds(); //também é uma opção mas tem menos precisão
-        //timer = new TimerController();
-        //timer.Reset();
+        timer = new TimerController();
+        timer.Reset();
 
         //GetReadFromJsonFiles(25.0f);
 
+        if (isTestData && csvTestFile)
+        {
+            GenerateTestSignalsFromCSV();
+        }
     }
 
     void Update() {
-        //timer.Run();
-        //if (timer.GetElapsedTime() > 2) {
-        //    StartCoroutine(GetReadBiggerSimulation(ultimo_id_lido));
-        //    timer.Reset();
-        //}
+        timer.Run();
+        if (timer.GetElapsedTime() > readInterval) {
+            //    StartCoroutine(GetReadBiggerSimulation(ultimo_id_lido));
 
-
+            if(isTestData && testSignals.success > 0 )
+            {
+                GetDataFromTestArray();
+            }
+            
+            timer.Reset();
+        }
     }
 
+    /** 
+     * Generates test signal entire data array based on csv file
+     * Update will handle test data to add on correct array of signals 
+     * each second.
+    **/
+    public void GenerateTestSignalsFromCSV()
+    {
+        testSignals.success = 0;
+        string[] rows = csvTestFile.text.Split('\n');
+        int rowCount = 0;
+        foreach (string data in rows)
+        {
+            if (rowCount > 2 && rowCount < rows.Length)
+            {
+                string[] columns = data.Split(',');
+                foreach (string column in columns)
+                {
+                    testSignals.success++;
+                    if (column.Length > 0) { 
+                        EDASignal newSignal = new EDASignal(0, float.Parse(column));
+                        testSignals.eda.Add(newSignal);
+                        // Debug.Log("Novo sinal adicionado: " + column);
+                    }
+                }
+            }
+            rowCount++;
+        }
+        Debug.Log("Adicionados " + testSignals.success + " dados de teste");
+    }
 
+    /** Gets last signals to simulate real time acquisition data**/
+    public void GetDataFromTestArray()
+    {
+        int previousLastIdSaved = lastIDSaved;
+        int elementsByInterval = frequency * readInterval;
+        for (; lastIDSaved < (previousLastIdSaved + elementsByInterval); lastIDSaved++)
+        {
+            EDASignal testSignal = testSignals.eda[lastIDSaved];
+            signals.eda.Add(testSignal);
+            Debug.Log("EDA Salvo " + testSignal.value);
+        }
+    }
 
     public void LerEDACalculaExcitacao(bool calcularExcitacao) {
         calculandoExcitacao = true;
@@ -237,17 +296,6 @@ public class EDAStart : MonoBehaviour
     public void zerarId() {
         ultimo_id_lido = 0;
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     /*
