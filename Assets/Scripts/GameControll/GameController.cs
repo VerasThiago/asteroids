@@ -45,21 +45,7 @@ public class GameController : MonoBehaviour{
 
     private void SetTextDesExtZon() {
         DDAAply inst = DDAAply.instance;
-        string desempenho, excitacao, zona;
-
-
-        if (inst.desempenho == State.PlayerState.HIGH) {
-            desempenho = "h";
-        }
-        else if (inst.desempenho == State.PlayerState.NORMAL) {
-            desempenho = "n";
-        }
-        else if (inst.desempenho == State.PlayerState.LOW) {
-            desempenho = "l";
-        }
-        else {
-            desempenho = "-";
-        }
+        string excitacao, zona;
 
         if (inst.excitacao == State.PlayerState.HIGH) {
             excitacao = "h";
@@ -87,13 +73,7 @@ public class GameController : MonoBehaviour{
             zona = "-";
         }
         
-        if (inst.IsDesempenho) {
-            if (DataCenter.instance.numberOfLevelDeaths == 1) {
-                NGUIDebug.Clear(); //o afetivo ja faz o clear antes
-                NGUIDebug.Log("d" + desempenho + "z" + zona);
-            }
-        }
-        else if (inst.IsAfetivo) {
+        if (inst.IsAfetivo) {
             if (DataCenter.instance.numberOfLevelDeaths == 1) {
                 NGUIDebug.Log("e" + excitacao + "z" + zona);
             }

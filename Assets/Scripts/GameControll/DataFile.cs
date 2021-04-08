@@ -82,9 +82,8 @@ public class DataFile {
     }
 
     public void AddLevelToJson() {
-        level_aux.desempenho = DDAAply.instance.getStringPlayerState(DDAAply.instance.desempenho);
-        level_aux.excitacao = DDAAply.instance.getStringPlayerState(DDAAply.instance.excitacao);
-        level_aux.zona = DDAAply.instance.getStringPlayerState(DDAAply.instance.zona);
+        level_aux.excitacao = DDAAply.instance.excitacao.ToString();
+        level_aux.zona = DDAAply.instance.zona.ToString();
         level.Add(level_aux);
         level_aux = null;
         level_aux = new DataFileLevel();
