@@ -31,7 +31,7 @@ public class PassLevel : MonoBehaviour {
         DataCenter.instance.SetTempoFinal();
         DataCenter.instance.SetVenceu(venceu);
         DataCenter.instance.AddLevelInfoToDataFile();
-        DDAAply.instance.BalanceAtPassLevel(); //salva o desempenho/excitação desde nivel que será usado para ajudar a dificuldade do próximo nível
+        DDAManager.instance.passLevelAdjustment(); //salva o desempenho/excitação desde nivel que será usado para ajudar a dificuldade do próximo nível
         DataCenter.instance.resetDeath();
         SceneManager.LoadScene(nextLevel);
     }

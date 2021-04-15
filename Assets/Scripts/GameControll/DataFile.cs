@@ -82,8 +82,8 @@ public class DataFile {
     }
 
     public void AddLevelToJson() {
-        level_aux.excitacao = DDAAply.instance.excitacao.ToString();
-        level_aux.zona = DDAAply.instance.zona.ToString();
+        level_aux.excitacao = DDAManager.instance.excitacao.ToString();
+        level_aux.zona = DDAManager.instance.zona.ToString();
         level.Add(level_aux);
         level_aux = null;
         level_aux = new DataFileLevel();

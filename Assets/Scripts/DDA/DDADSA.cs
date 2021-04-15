@@ -3,16 +3,15 @@ using System.Collections;
 
 public class DDADSA
 {
-    private int prev;
-    private int curr;
+    private double prev;
+    private double curr;
 
     private int sampleCount;
 
-    private int totalChange;
+    private double totalChange;
     private int currentSampleCount;
-    private int threshold;
+    private double threshold;
 
-    // Use this for initialization
     public DDADSA()
     {
         prev = -1;
@@ -23,7 +22,7 @@ public class DDADSA
         threshold = 20;
     }
 
-    public int AddDataPoint(int newData)
+    public int AddDataPoint(double newData)
     {
         prev = curr;
         curr = newData;
@@ -33,6 +32,7 @@ public class DDADSA
             totalChange += curr - prev;
             currentSampleCount++;
 
+            Debug.Log(totalChange);
             if (currentSampleCount == sampleCount)
             {
                 if (totalChange >= threshold)

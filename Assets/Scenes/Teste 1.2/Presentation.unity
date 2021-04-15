@@ -2207,6 +2207,14 @@ MonoBehaviour:
   sinais:
     success: 0
     eda: []
+  signals:
+    success: 0
+    eda: []
+  isTestData: 1
+  testSignals:
+    success: 0
+    eda: []
+  csvTestFile: {fileID: 4900000, guid: 15f5e2e1b20a0d244855aeeba3947380, type: 3}
   calculandoExcitacao: 0
 --- !u!1 &1412720542
 GameObject:

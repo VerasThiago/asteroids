@@ -135,7 +135,7 @@ public class UIPerguntas2 : MonoBehaviour
         Update();
 
         if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)  {
-            if (!EDAStart.instance.calculandoExcitacao) {
+            if (!EDADatabase.instance.isAdjusting) {
                 DataCenter.instance.AddPerguntasToDataFile(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
                 DataCenter.instance.AddLevelToJson();
                 if (DataCenter.instance.GetCurrentLevel() == levelCount) {

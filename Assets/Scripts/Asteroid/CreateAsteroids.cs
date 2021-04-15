@@ -23,7 +23,7 @@ public class CreateAsteroids : MonoBehaviour {
     void Start() {
         
         AsteroidCount = 1000;
-        minSpeed = DDAAply.instance.getAsteroidSpeed();
+        minSpeed = DDAManager.instance.getAsteroidSpeed();
         if(minSpeed < 0f) {
             minSpeed = 0f;
         }

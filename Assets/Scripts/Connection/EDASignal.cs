@@ -9,13 +9,13 @@ public class EDASignal
     public int id;
     public double value;
     public double time;
-    public int read; //não estamos usando. estava no codigo antigo
+   // public int read;
 
-    public EDASignal(int id, double time, double value, int read) {
+    public EDASignal(int id, double time, double value) {
         this.id = id;
         this.time = time;
         this.value = value;
-        this.read = read;
+        // this.read = read;
     }
 
     public EDASignal(double time, double value) {
