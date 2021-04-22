@@ -8,7 +8,7 @@ using UnityEngine;
 public class EDAProcessor {
 
     //private int sampleRate = 4;
-    private int arousalLevel = 10;
+    private int arousalLevel = 1000;
     //private double defaultTimeWindow = 10;
 
     private double minArousalArea;

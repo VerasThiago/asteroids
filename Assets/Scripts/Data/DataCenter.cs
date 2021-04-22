@@ -22,6 +22,7 @@ public class DataCenter : MonoBehaviour {
     public double finalLevelTime;
     public float velMinInicial;
     DataFile df;
+    DataFileEDA dfEda;
 
     void Start() {
         if (instance == null)
@@ -29,6 +30,7 @@ public class DataCenter : MonoBehaviour {
             instance = this;
             Debug.Log(instance);
             df = new DataFile();
+            dfEda = new DataFileEDA();
             currentLevel = 1;
         }
         else if (instance != this) {
@@ -46,7 +48,7 @@ public class DataCenter : MonoBehaviour {
                 df.addFlagEmpatica(agora);
             }
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
+        /*if (Input.GetKeyDown(KeyCode.UpArrow)) {
             df.addApertouUp(agora);
         }
         if (Input.GetKeyUp(KeyCode.UpArrow)) {
@@ -72,7 +74,7 @@ public class DataCenter : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Space)) {
             df.addTiro(agora);
-        }
+        }*/
 	}
 
 	public void AddDeath(){
@@ -80,7 +82,18 @@ public class DataCenter : MonoBehaviour {
         df.addMorte(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
 	}
 
-	public void AddLevelInfoToDataFile() {
+    public void AddSpeedAdjustment(float value)
+    {
+        df.addValueAdjustment(value);
+        df.addAdjustment(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
+    }
+
+    public void AddFirstEdaTime()
+    {
+        df.addFirstEda(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
+    }
+
+    public void AddLevelInfoToDataFile() {
         int AsteroidCount = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetAsteroidCount();
         float minSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMinSpeed();
         float maxSpeed = GameObject.FindGameObjectWithTag("LevelController").GetComponent<CreateAsteroids>().GetMaxSpeed();
@@ -92,6 +105,10 @@ public class DataCenter : MonoBehaviour {
     }
 
     public void Write() {
+        dfEda.addSignalsOnFile(EDADatabase.instance.allSignals.eda, DDAManager.instance.changes);
+        string jsonstringeda = JsonUtility.ToJson(dfEda, true);
+        File.WriteAllText("sinais_" + nomeCompleto + ".json", jsonstringeda);
+
         string jsonstring = JsonUtility.ToJson(df, true);
         File.WriteAllText("Output "+nomeCompleto+".json", jsonstring);
     }

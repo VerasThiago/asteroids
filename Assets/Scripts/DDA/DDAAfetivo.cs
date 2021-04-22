@@ -58,6 +58,8 @@ public class DDAAfetivo
             Debug.Log("Warning: É AFT e PlayerState.excitacao==NULL (BalanceAtDeath)");
             ajuste_ext = -0.25f;
         }
+
+        DataCenter.instance.AddSpeedAdjustment(ajuste_ext + ajuste_zona);
         DDAManager.instance.asteroidSpeed += (ajuste_ext + ajuste_zona);
       
     }
@@ -116,6 +118,7 @@ public class DDAAfetivo
         Debug.Log("Ajuste pass nivel: " + (ajuste_ext + ajuste_zona) + " vel inicial: " + DataCenter.instance.velMinInicial + " vel final: " + DDAManager.instance.asteroidSpeed);
         NGUIDebug.Log((ajuste_ext + ajuste_zona) + "35470" + DataCenter.instance.velMinInicial + "0" + DDAManager.instance.asteroidSpeed);
 
+        DataCenter.instance.AddSpeedAdjustment(ajuste_ext + ajuste_zona);
         DDAManager.instance.asteroidSpeed += (ajuste_ext + ajuste_zona);
     }
 

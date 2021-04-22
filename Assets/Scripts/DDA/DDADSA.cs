@@ -32,19 +32,25 @@ public class DDADSA
             totalChange += curr - prev;
             currentSampleCount++;
 
-            Debug.Log(totalChange);
+            
             if (currentSampleCount == sampleCount)
             {
-                if (totalChange >= threshold)
-                {
-                    ResetHistogram();
-                    return 1;
+                //Debug.Log("c: " + Mathf.Abs((float)totalChange) + " th: " + (curr * (threshold / 100)));
+                //Debug.Log(Mathf.Abs((float)totalChange) > (curr * (threshold / 100)));
 
-                }
-                else if (totalChange < 0 && totalChange <= threshold*-1)
+                if (Mathf.Abs((float)totalChange) > (curr * (threshold / 100)))
                 {
-                    ResetHistogram();
-                    return -1;
+                    if (totalChange > 0)
+                    {
+                        ResetHistogram();
+                        return 1;
+
+                    }
+                    else if (totalChange < 0)
+                    {
+                        ResetHistogram();
+                        return -1;
+                    }
                 }
                 ResetHistogram();
             }
@@ -59,4 +65,22 @@ public class DDADSA
         totalChange = 0;
 
     }
+
+    public int AddPoints (EDASignals signals)
+    {
+        int change = 0;
+        if (signals.eda.Count > 0)
+        {
+            for (int i = 0; i < signals.eda.Count; i++)
+            {
+                if (change == 0)
+                {
+                    change = AddDataPoint(signals.eda[i].value);
+                }  
+            }
+            return change;
+        }
+
+        return 0;
+    } 
 }

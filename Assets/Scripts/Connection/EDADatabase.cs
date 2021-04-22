@@ -11,11 +11,13 @@ public class EDADatabase : MonoBehaviour
     public GameObject prefab;
 
     public EDASignals signals;
+    public EDASignals allSignals;
     public EDASignals testSignals;
 
     private int lastIDSaved;
     private int frequency = 4;
     private int readInterval = 2;
+    private bool savedFirst = false;
 
     //private double tempo_inicial_jogo;
     private TimerController timer;
@@ -67,6 +69,7 @@ public class EDADatabase : MonoBehaviour
      * **/
     IEnumerator GetEDAByGreaterID(bool needAdjustment, bool isLimited)
     {
+        /*
         if (needAdjustment)
         {
             Debug.Log("Trying to get EDA with id greater than " + lastIDSaved);
@@ -74,13 +77,13 @@ public class EDADatabase : MonoBehaviour
         else
         {
             Debug.Log("Discarding EDA with id greater then " + lastIDSaved);
-        }
+        }*/
 
         String url = "http://localhost/android_connect/read_bigger.php" + "?id=" + lastIDSaved;
 
         if (isLimited)
         {
-            url += "?limit=" + (frequency * readInterval);
+            url += "&limit=" + (frequency * readInterval);
         }
 
         using (UnityWebRequest www = UnityWebRequest.Get(url))
@@ -100,6 +103,12 @@ public class EDADatabase : MonoBehaviour
                 System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US"); //para converter os Doubles considerando '.' e nao ','
                 signals = JsonUtility.FromJson<EDASignals>(jsonString);
 
+                for (int i = 0; i < signals.eda.Count; i++)
+                {
+                    signals.eda[i].time = double.Parse(signals.eda[i].stringtime);
+                    //Debug.Log(signals.eda[i].time);
+                }
+
                 if (signals.eda.Count > 0)
                 {
                     lastIDSaved = signals.eda[signals.eda.Count - 1].id; // Save ID of last EDA
@@ -112,6 +121,11 @@ public class EDADatabase : MonoBehaviour
                 NGUIDebug.Clear();
                 if (needAdjustment)
                 {
+                    if(!savedFirst)
+                    {
+                        DataCenter.instance.AddFirstEdaTime();
+                    }
+                    allSignals.eda.AddRange(signals.eda);
                     NGUIDebug.Log(signals.eda.Count + " new EDA");
                     Debug.Log(signals.eda.Count + " new EDAs received");
                     DDAManager.instance.edaRequestAdjusment();
