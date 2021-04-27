@@ -79,6 +79,29 @@ public class DDAManager : MonoBehaviour
         }
     }
 
+    public void CalculaZona()
+    {
+        int mortes = DataCenter.instance.numberOfLevelDeaths;
+        double duracao = DataCenter.instance.GetDuracao();
+
+        PlayerState oldZone = zona;
+
+        if (mortes < 4 && duracao < 67)
+        {
+            zona = PlayerState.LOW;
+        }
+        else if (mortes > 4 && duracao > 67)
+        {
+            zona = PlayerState.HIGH;
+        }
+        else
+        {
+            zona = PlayerState.NORMAL;
+        }
+        
+        DataCenter.instance.AddZonaAdjustment(zona.ToString());
+    }
+
     public void edaRequestAdjusment()
     {
         EDASignal lastElement = EDADatabase.instance.signals.eda[EDADatabase.instance.signals.eda.Count - 1];
@@ -100,20 +123,28 @@ public class DDAManager : MonoBehaviour
 
     public void realTimeSpeedAdjust(int slope)
     {
+        CalculaZona();
+
         float adjust = 0.0f;
         if (slope == 1 && DDAManager.instance.zona == PlayerState.HIGH)
         {
-            adjust = -0.25f;
+            adjust = -0.5f;
         }
         else if (slope == -1 && DDAManager.instance.zona == PlayerState.LOW)
         {
-            adjust = 0.25f;
+            adjust = 0.5f;
         }
 
         DDAManager.instance.speedChanged += adjust;
-        if (Mathf.Abs(DDAManager.instance.speedChanged) <= 1 && adjust != 0.0f) {
+        if (DDAManager.instance.speedChanged <= 3.0f && adjust > 0.0f) {
             DDAManager.instance.asteroidSpeed += adjust;
             DataCenter.instance.AddSpeedAdjustment(adjust);
+            Debug.Log("aumentou");
+        }else if(DDAManager.instance.speedChanged >= -3.0f && adjust < 0.0f)
+        {
+            DDAManager.instance.asteroidSpeed += adjust;
+            DataCenter.instance.AddSpeedAdjustment(adjust);
+            Debug.Log("diminuiu");
         }
     }
 
@@ -121,6 +152,7 @@ public class DDAManager : MonoBehaviour
     {
         if(type == ADDTypes.Afective)
         {
+            CalculaZona();
             afectiveDDA.BalanceAtPassLevel();
         }
         else
@@ -133,6 +165,7 @@ public class DDAManager : MonoBehaviour
     {
         if (type == ADDTypes.Afective)
         {
+            CalculaZona();
             afectiveDDA.BalanceAtDeath();
         }
     }

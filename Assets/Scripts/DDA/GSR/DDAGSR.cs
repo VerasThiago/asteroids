@@ -5,6 +5,8 @@ public class DDAGSR
 {
     private EDAProcessor edaProcessor;
 
+    private double lastArousal = 0;
+
     // Use this for initialization
     public DDAGSR()
     {
@@ -26,14 +28,21 @@ public class DDAGSR
 
     public int GetChanged(double arousal)
     {
-        if(arousal > 700)
+        if(lastArousal != 0)
         {
-            return 1;
-        }else if(arousal < 300)
-        {
-            return -1;
+            if(arousal > 1.3 * lastArousal)
+            {
+                lastArousal = arousal;
+                return 1;
+            }
+            else if (arousal < 0.7 * lastArousal)
+            {
+                lastArousal = arousal;
+                return -1;
+            }
         }
-
+        lastArousal = arousal;
+   
         return 0;
     } 
 }

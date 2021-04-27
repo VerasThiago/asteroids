@@ -88,9 +88,20 @@ public class DataCenter : MonoBehaviour {
         df.addAdjustment(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
     }
 
+    public void AddZonaAdjustment(string zona)
+    {
+        df.addZonaAdjustment(zona);
+        df.addZonaAdjustmentTime(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
+    }
+
     public void AddFirstEdaTime()
     {
         df.addFirstEda(System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds);
+    }
+
+    public void AddFirstEdaId(int id)
+    {
+        df.addFirstEdaId(id);
     }
 
     public void AddLevelInfoToDataFile() {
@@ -107,10 +118,10 @@ public class DataCenter : MonoBehaviour {
     public void Write() {
         dfEda.addSignalsOnFile(EDADatabase.instance.allSignals.eda, DDAManager.instance.changes);
         string jsonstringeda = JsonUtility.ToJson(dfEda, true);
-        File.WriteAllText("sinais_" + nomeCompleto + ".json", jsonstringeda);
+        File.WriteAllText("Sinais_" + nomeCompleto + "_" + DDAManager.instance.type + ".json", jsonstringeda);
 
         string jsonstring = JsonUtility.ToJson(df, true);
-        File.WriteAllText("Output "+nomeCompleto+".json", jsonstring);
+        File.WriteAllText("Output "+nomeCompleto+ "_"+ DDAManager.instance.type + ".json", jsonstring);
     }
 
     public void SetNomeJogador(string nome_str, string sobrenome_str) {

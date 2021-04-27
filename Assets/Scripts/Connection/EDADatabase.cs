@@ -113,27 +113,29 @@ public class EDADatabase : MonoBehaviour
                 {
                     lastIDSaved = signals.eda[signals.eda.Count - 1].id; // Save ID of last EDA
                 }
-                else
-                {
-                    lastIDSaved = 0; // If DB is cleared in the middle of game
-                }
 
                 NGUIDebug.Clear();
                 if (needAdjustment)
                 {
-                    if(!savedFirst)
+                    if(!savedFirst && signals.eda.Count > 0)
                     {
                         DataCenter.instance.AddFirstEdaTime();
+                        DataCenter.instance.AddFirstEdaId(signals.eda[0].id);
+                        savedFirst = true;
                     }
-                    allSignals.eda.AddRange(signals.eda);
-                    NGUIDebug.Log(signals.eda.Count + " new EDA");
+                    //NGUIDebug.Log(signals.eda.Count + " new EDA");
                     Debug.Log(signals.eda.Count + " new EDAs received");
                     DDAManager.instance.edaRequestAdjusment();
                 }
                 else
                 {
-                    NGUIDebug.Log(signals.eda.Count + " new EDA wo Adjust");
+                    //NGUIDebug.Log(signals.eda.Count + " new EDA wo Adjust");
                     Debug.Log(signals.eda.Count + " new EDAs without adjustment");
+                }
+
+                if (savedFirst)
+                {
+                    allSignals.eda.AddRange(signals.eda);
                 }
             }
         }

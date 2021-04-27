@@ -23,9 +23,9 @@ public class GameController : MonoBehaviour{
         if(DataCenter.instance.numberOfLevelDeaths == 0) {
             DataCenter.instance.velMinInicial = DDAManager.instance.asteroidSpeed; //grava a velocidade inicial do nivel
             DataCenter.instance.SetTempoInicial(); //grava o tempo inicial do nível
-            if (DDAManager.instance.IsAfetivo) {
-                EDADatabase.instance.GetEDAFromDB(false, false); //Descarta os sinais eda lidos no questionario (calcularExcitacao=false)
-            }
+            
+            EDADatabase.instance.GetEDAFromDB(false, false); //Descarta os sinais eda lidos no questionario (calcularExcitacao=false)
+            
         }
     }
 
@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour{
         
         if (inst.type == DDAManager.ADDTypes.Afective) {
             if (DataCenter.instance.numberOfLevelDeaths == 1) {
-                NGUIDebug.Log("e" + excitacao + "z" + zona);
+                //NGUIDebug.Log("e" + excitacao + "z" + zona);
             }
         }
        

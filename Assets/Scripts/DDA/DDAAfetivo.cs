@@ -10,21 +10,15 @@ public class DDAAfetivo
     //chamada quando se passa de nível (PassLevel)
     public void BalanceAtPassLevel()
     {
-        CalculaZona();
-
         EDADatabase.instance.GetEDAFromDB(true, false);
         //le os sinais e os salva em EDADatabase.instance.sinais
         //O  ajuste de excitacao só é chamado dps de calcular o desempenho,
         // e como ele é concorrente, ela é chamada só após a finalização do calculo
-
     }
 
     //ajusta o nível quando morre (GameController)
     public void BalanceAtDeath()
     {
-
-        CalculaZona();
-
         float ajuste_zona = 0f;
         if (DDAManager.instance.zona == PlayerState.LOW)
         {
@@ -73,25 +67,25 @@ public class DDAAfetivo
         if (DDAManager.instance.excitacao == PlayerState.HIGH)
         {
             Debug.Log("extH");
-            NGUIDebug.Log("eh");
+            //NGUIDebug.Log("eh");
             ajuste_ext = 0f;
         }
         else if (DDAManager.instance.excitacao == PlayerState.NORMAL)
         {
             Debug.Log("extN");
-            NGUIDebug.Log("en");
+            //NGUIDebug.Log("en");
             ajuste_ext = 0.5f;
         }
         else if (DDAManager.instance.excitacao == PlayerState.LOW)
         {
             Debug.Log("extL");
-            NGUIDebug.Log("el");
+            //NGUIDebug.Log("el");
             ajuste_ext = 1f;
         }
         else
         { //excitacao == NULL
             Debug.Log("Warning: excitacao == Null (AjustaExcitacao)");
-            NGUIDebug.Log("e-");
+            //NGUIDebug.Log("e-");
             ajuste_ext = 0.5f;
         }
 
@@ -99,46 +93,27 @@ public class DDAAfetivo
         if (DDAManager.instance.zona == PlayerState.LOW)
         {
             Debug.Log("zonaL");
-            NGUIDebug.Log("zl");
+            //NGUIDebug.Log("zl");
             ajuste_zona = 1f;
         }
         else if (DDAManager.instance.zona == PlayerState.NORMAL)
         {
             Debug.Log("zonaN");
-            NGUIDebug.Log("zn");
+            //NGUIDebug.Log("zn");
             ajuste_zona = 0.5f;
         }
         else
         { //(zona == PlayerState.HIGH) 
             Debug.Log("zonaH");
-            NGUIDebug.Log("zh");
+            //NGUIDebug.Log("zh");
             ajuste_zona = 0f;
         }
 
         Debug.Log("Ajuste pass nivel: " + (ajuste_ext + ajuste_zona) + " vel inicial: " + DataCenter.instance.velMinInicial + " vel final: " + DDAManager.instance.asteroidSpeed);
-        NGUIDebug.Log((ajuste_ext + ajuste_zona) + "35470" + DataCenter.instance.velMinInicial + "0" + DDAManager.instance.asteroidSpeed);
+        //NGUIDebug.Log((ajuste_ext + ajuste_zona) + "35470" + DataCenter.instance.velMinInicial + "0" + DDAManager.instance.asteroidSpeed);
 
         DataCenter.instance.AddSpeedAdjustment(ajuste_ext + ajuste_zona);
         DDAManager.instance.asteroidSpeed += (ajuste_ext + ajuste_zona);
-    }
-
-    public void CalculaZona()
-    {
-        int mortes = DataCenter.instance.numberOfLevelDeaths;
-        double duracao = DataCenter.instance.GetDuracao();
-
-        if (mortes < 4 && duracao < 67)
-        {
-            DDAManager.instance.zona = PlayerState.LOW;
-        }
-        else if (mortes > 4 && duracao > 67)
-        {
-            DDAManager.instance.zona = PlayerState.HIGH;
-        }
-        else
-        {
-            DDAManager.instance.zona = PlayerState.NORMAL;
-        }
     }
 
     private void CalculaPicos(EDASignals sinais)
@@ -273,7 +248,7 @@ public class DDAAfetivo
     {
         picos.Clear();
         CalculaPicos(sinais); //pontos máximos e minimos relativos
-        NGUIDebug.Log(picos.Count + "pic");
+        //NGUIDebug.Log(picos.Count + "pic");
         Debug.Log(picos.Count + " picos achados");
         if (picos.Count > 1)
         {

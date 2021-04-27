@@ -1,16 +1,21 @@
 ﻿using UnityEngine;
+using System;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DDADSA
 {
     private double prev;
     private double curr;
+    private List<double> values = new List<double>();
 
     private int sampleCount;
 
     private double totalChange;
     private int currentSampleCount;
-    private double threshold;
+    // private double threshold;
+    private double deviation = 0;
 
     public DDADSA()
     {
@@ -19,7 +24,8 @@ public class DDADSA
         currentSampleCount = 0;
         totalChange = 0;
         sampleCount = 20;
-        threshold = 20;
+        // threshold = 20;
+        deviation = 0;
     }
 
     public int AddDataPoint(double newData)
@@ -30,15 +36,17 @@ public class DDADSA
         if (prev != -1 && curr != -1)
         {
             totalChange += curr - prev;
+            values.Add(curr);
             currentSampleCount++;
 
             
             if (currentSampleCount == sampleCount)
             {
-                //Debug.Log("c: " + Mathf.Abs((float)totalChange) + " th: " + (curr * (threshold / 100)));
-                //Debug.Log(Mathf.Abs((float)totalChange) > (curr * (threshold / 100)));
+                //Debug.Log(deviation);
+                //Debug.Log("c: " + Mathf.Abs((float)totalChange) + " th: " + deviation);
+                //Debug.Log(Mathf.Abs((float)totalChange) > deviation);
 
-                if (Mathf.Abs((float)totalChange) > (curr * (threshold / 100)))
+                if (Mathf.Abs((float)totalChange) > deviation &&  deviation != 0)
                 {
                     if (totalChange > 0)
                     {
@@ -61,9 +69,16 @@ public class DDADSA
     // Update is called once per frame
     void ResetHistogram()
     {
+        saveDeviation();
         currentSampleCount = 0;
         totalChange = 0;
+        values.Clear();
+    }
 
+    void saveDeviation()
+    {
+        double avg = values.Average();
+        deviation = Math.Sqrt(values.Average(v => Math.Pow(v - avg, 2)));
     }
 
     public int AddPoints (EDASignals signals)

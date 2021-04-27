@@ -23,6 +23,9 @@ public class DataFileLevel
     public List<double> ajusteRealizado = new List<double>();
     public List<float> valorAjusteRealizado = new List<float>();
 
+    public List<double> zonaAlterada = new List<double>();
+    public List<string> zonas = new List<string>();
+
     public bool venceu;
 
     public int totalDeMortes;

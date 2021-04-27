@@ -15,6 +15,7 @@ public class DataFile {
     public List<double> botaoFlagEmpatica = new List<double>();
 
     public double firstEda;
+    public int firstEdaId;
 
     public List<DataFileLevel> level;
     private DataFileLevel level_aux; //não imprime no json por ser private
@@ -63,7 +64,13 @@ public class DataFile {
 
     public void addFirstEda(double tempo) { firstEda = tempo; }
 
+    public void addFirstEdaId(int id) { firstEdaId = id;  }
+
     public void addValueAdjustment(float value) { level_aux.valorAjusteRealizado.Add(value); }
+
+    public void addZonaAdjustment(string zona) { level_aux.zonas.Add(zona); }
+
+    public void addZonaAdjustmentTime(double tempo) { level_aux.zonaAlterada.Add(tempo); }
 
     // tempo inicial e tempo final já foram povoados. mortes, tiros, e teclas (up, down...) também.
     public void AddLevelInfoToDataFileLevel(int asteroidsCount, float minSpeed, float maxSpeed, float velMinIni) {
