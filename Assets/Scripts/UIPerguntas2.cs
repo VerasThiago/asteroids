@@ -17,7 +17,7 @@ public class UIPerguntas2 : MonoBehaviour
     private string respostaDiversao;
     private string respostaInputText;
     private bool jaClicouSubmit = false;
-    private int levelCount = 7;
+    private int levelCount = 5;
 
     void Start()
     {

@@ -86,6 +86,8 @@ public class DDAManager : MonoBehaviour
 
         PlayerState oldZone = zona;
 
+        Debug.Log(duracao);
+        Debug.Log(mortes);
         if (mortes < 4 && duracao < 67)
         {
             zona = PlayerState.LOW;
@@ -104,20 +106,22 @@ public class DDAManager : MonoBehaviour
 
     public void edaRequestAdjusment()
     {
-        EDASignal lastElement = EDADatabase.instance.signals.eda[EDADatabase.instance.signals.eda.Count - 1];
-        if (type == ADDTypes.Afective)
-        {
-            afectiveDDA.MedianExcitment(EDADatabase.instance.signals);
-        } else if(type == ADDTypes.GSR) {
+        if(EDADatabase.instance.signals.eda.Count > 0) { 
+            EDASignal lastElement = EDADatabase.instance.signals.eda[EDADatabase.instance.signals.eda.Count - 1];
+            if (type == ADDTypes.Afective)
+            {
+                afectiveDDA.MedianExcitment(EDADatabase.instance.signals);
+            } else if(type == ADDTypes.GSR) {
 
-            double gsrChange = gsrDDA.GetChanges();
-            changes.Add(new EDASignal(lastElement.time, gsrChange, lastElement.stringtime));
-            realTimeSpeedAdjust(gsrDDA.GetChanged(gsrChange));
-        } else if (type == ADDTypes.DSA)
-        {
-            int dsaChange = dsaDDA.AddPoints(EDADatabase.instance.signals);
-            changes.Add(new EDASignal(lastElement.time, dsaChange, lastElement.stringtime));
-            realTimeSpeedAdjust(dsaChange);
+                double gsrChange = gsrDDA.GetChanges();
+                changes.Add(new EDASignal(lastElement.time, gsrChange, lastElement.stringtime));
+                realTimeSpeedAdjust(gsrDDA.GetChanged(gsrChange));
+            } else if (type == ADDTypes.DSA)
+            {
+                int dsaChange = dsaDDA.AddPoints(EDADatabase.instance.signals);
+                changes.Add(new EDASignal(lastElement.time, dsaChange, lastElement.stringtime));
+                realTimeSpeedAdjust(dsaChange);
+            }
         }
     }
 

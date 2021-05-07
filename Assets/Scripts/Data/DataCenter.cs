@@ -148,7 +148,16 @@ public class DataCenter : MonoBehaviour {
     }
 
     public double GetDuracao() {
-        return (finalLevelTime - initialLevelTime);
+
+        if (finalLevelTime > initialLevelTime)
+        {
+            return (finalLevelTime - initialLevelTime);
+        }
+        else
+        {
+            return System.DateTime.UtcNow.Subtract(new System.DateTime(1970, 1, 1)).TotalSeconds - initialLevelTime;
+        }
+
     }
 
     public void AddLevel() {
