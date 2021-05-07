@@ -17,7 +17,7 @@ public class UIPerguntas2 : MonoBehaviour
     private string respostaDiversao;
     private string respostaInputText;
     private bool jaClicouSubmit = false;
-    private int levelCount = 3;
+    private int levelCount = 5;
 
     void Start()
     {
@@ -135,7 +135,7 @@ public class UIPerguntas2 : MonoBehaviour
         Update();
 
         if (respostaDificuldade != null && respostaTedio != null && respostaFrustracao != null && respostaDiversao != null)  {
-            if (!EDAStart.instance.calculandoExcitacao) {
+            if (!EDADatabase.instance.isAdjusting) {
                 DataCenter.instance.AddPerguntasToDataFile(respostaDificuldade, respostaTedio, respostaFrustracao, respostaDiversao, respostaInputText);
                 DataCenter.instance.AddLevelToJson();
                 if (DataCenter.instance.GetCurrentLevel() == levelCount) {

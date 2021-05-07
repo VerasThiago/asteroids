@@ -21,11 +21,11 @@ public class GameController : MonoBehaviour{
         player = GameObject.FindGameObjectWithTag("Player");
         shipCollisionStatus = player.GetComponent<ShipCollision>();
         if(DataCenter.instance.numberOfLevelDeaths == 0) {
-            DataCenter.instance.velMinInicial = DDAAply.instance.asteroidSpeed; //grava a velocidade inicial do nivel
+            DataCenter.instance.velMinInicial = DDAManager.instance.asteroidSpeed; //grava a velocidade inicial do nivel
             DataCenter.instance.SetTempoInicial(); //grava o tempo inicial do nível
-            if (DDAAply.instance.IsAfetivo) {
-                EDAStart.instance.LerEDACalculaExcitacao(false); //Descarta os sinais eda lidos no questionario (calcularExcitacao=false)
-            }
+            
+            EDADatabase.instance.GetEDAFromDB(false, false); //Descarta os sinais eda lidos no questionario (calcularExcitacao=false)
+            
         }
     }
 
@@ -44,22 +44,8 @@ public class GameController : MonoBehaviour{
     }
 
     private void SetTextDesExtZon() {
-        DDAAply inst = DDAAply.instance;
-        string desempenho, excitacao, zona;
-
-
-        if (inst.desempenho == State.PlayerState.HIGH) {
-            desempenho = "h";
-        }
-        else if (inst.desempenho == State.PlayerState.NORMAL) {
-            desempenho = "n";
-        }
-        else if (inst.desempenho == State.PlayerState.LOW) {
-            desempenho = "l";
-        }
-        else {
-            desempenho = "-";
-        }
+        DDAManager inst = DDAManager.instance;
+        string excitacao, zona;
 
         if (inst.excitacao == State.PlayerState.HIGH) {
             excitacao = "h";
@@ -87,24 +73,12 @@ public class GameController : MonoBehaviour{
             zona = "-";
         }
         
-        if (inst.IsDesempenho) {
+        if (inst.type == DDAManager.ADDTypes.Afective) {
             if (DataCenter.instance.numberOfLevelDeaths == 1) {
-                NGUIDebug.Clear(); //o afetivo ja faz o clear antes
-                NGUIDebug.Log("d" + desempenho + "z" + zona);
+                //NGUIDebug.Log("e" + excitacao + "z" + zona);
             }
         }
-        else if (inst.IsAfetivo) {
-            if (DataCenter.instance.numberOfLevelDeaths == 1) {
-                NGUIDebug.Log("e" + excitacao + "z" + zona);
-            }
-        }
-        else if (inst.IsZona) {
-            if (DataCenter.instance.numberOfLevelDeaths == 1) {
-                NGUIDebug.Clear(); //o afetivo ja faz o clear antes
-                NGUIDebug.Log("z" + zona);
-            }
-        }
-        
+       
         TextEnable.SetHiperspaceText("Pressione Espaço");
         flagAuxBugFixGambiarra = false;
 
@@ -118,7 +92,7 @@ public class GameController : MonoBehaviour{
 	}
 
 	private void RestartLevel(){
-		DDAAply.instance.BalanceAtDeath();
+        DDAManager.instance.deathAdjustment();
 		SceneManager.LoadScene (actualScene);
 	}
 	

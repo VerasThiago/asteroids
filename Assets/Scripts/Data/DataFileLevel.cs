@@ -16,16 +16,22 @@ public class DataFileLevel
     public double tempoDuracao; //em segundos
     public float tempoPorVida;
 
-    public string desempenho; //esse é o desempenho desde nivel que será usado para ajudar a dificuldade do próximo nível
+    // public string desempenho; //esse é o desempenho desde nivel que será usado para ajudar a dificuldade do próximo nível
     public string excitacao; //esse é a excitação desde nivel que será usado para ajudar a dificuldade do próximo nível
     public string zona;
+
+    public List<double> ajusteRealizado = new List<double>();
+    public List<float> valorAjusteRealizado = new List<float>();
+
+    public List<double> zonaAlterada = new List<double>();
+    public List<string> zonas = new List<string>();
 
     public bool venceu;
 
     public int totalDeMortes;
     public List<double> mortes = new List<double>();
 
-    public int totalDeTiros;
+    /*public int totalDeTiros;
     public float percentualUp;
     public float percentualDown;
     public float percentualLeft;
@@ -38,7 +44,7 @@ public class DataFileLevel
     public List<double> apertouLeft = new List<double>();
     public List<double> soltouLeft = new List<double>();
     public List<double> apertouRight = new List<double>();
-    public List<double> soltouRight = new List<double>();
+    public List<double> soltouRight = new List<double>();*/
 
     public string dificuldade;
     public string tedio;

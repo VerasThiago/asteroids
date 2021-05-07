@@ -14,7 +14,7 @@ public class SensorChooser : MonoBehaviour {
 	}
 
 	public void SaveSensor(){
-        DDAAply.instance.ChooseSensor(sensor.options[sensor.value].text);
+        DDAManager.instance.SetDDAType(sensor.options[sensor.value].text);
 	}
 	
 }
