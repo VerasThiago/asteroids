@@ -47,5 +47,5 @@ Chamadas em Level:
 
 		!!! GetPlayerData (GetPlayerData): Nao estamos usando mais. Apagar. Era utilizada para pegar data do jogador que não vem diretamente do jogo, como arquivos textos (EDA)
 
-
+TODO: FAZER FUNCIONAR DE VERDADE
 	
